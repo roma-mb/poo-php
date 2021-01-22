@@ -17,7 +17,7 @@ final class Address
         $this->street       = $street;
         $this->number       = $number;
         $this->neighborhood = $neighborhood;
-    } 
+    }
 
     public function getCity(): string
     {

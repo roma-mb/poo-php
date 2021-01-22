@@ -1,6 +1,6 @@
 <?php
 
-spl_autoload_register(static function (string $fullPath){
+spl_autoload_register(static function (string $fullPath) {
     $path  = str_replace('App', 'src', $fullPath);
     $path  = str_replace('\\', DIRECTORY_SEPARATOR, $path);
     $path .= '.php';

@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use InvalidArgumentException;
+
 final class CPF
 {
     private $number;
@@ -35,8 +37,7 @@ final class CPF
         ]);
 
         if ($validate === false) {
-            echo "Cpf inválido";
-            exit();
+            throw new InvalidArgumentException('Cpf inválido');
         }
     }
 }

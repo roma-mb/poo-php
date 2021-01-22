@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use App\Exceptions\InvalidNameException;
+
 class Person
 {
     private $name;
@@ -42,8 +44,7 @@ class Person
     private function validateName(string $name): void
     {
         if (strlen($name) < 5) {
-            echo "Nome precisa ter pelo menos 5 caracteres";
-            exit();
+            throw new InvalidNameException($name);
         }
     }
 }

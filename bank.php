@@ -11,18 +11,23 @@ use App\Model\CPF;
 use App\Model\Employee\Director;
 use App\Service\Authenticate;
 
-$cpf     = new CPF('123.456.789-10');
-$address = new Address('SP', 'São Paulo', 'Al Amazonas', '4567'); 
-$holder  = new Holder($cpf, 'User A', $address);
+try {
+    $cpf     = new CPF('123.456.789-10');
+    $address = new Address('SP', 'São Paulo', 'Al Amazonas', '4567');
+    $holder  = new Holder($cpf, 'User A', $address);
 
-// interface
-$auth = new Authenticate();
-$auth->login($holder, '@holder');
+    // interface
+    $auth = new Authenticate();
+    $auth->login($holder, '@holder');
 
-$savingsAccount = new Savings($holder);
-$currentAccount = new Current($holder);
-$currentAccount->deposit(1000);
-$currentAccount->withdraw(300);
+    $savingsAccount = new Savings($holder);
+    $currentAccount = new Current($holder);
+
+    $currentAccount->deposit(-300);
+    $currentAccount->withdraw(300);
+} catch (\Exception $exception) {
+    echo $exception->getMessage() . PHP_EOL;
+}
 
 // __toString();
 echo 'HOLDER ADDRESS: ' .  $address . PHP_EOL;

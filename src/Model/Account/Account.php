@@ -2,6 +2,9 @@
 
 namespace App\Model\Account;
 
+use App\Exceptions\InsufficientFundsException;
+use InvalidArgumentException;
+
 abstract class Account
 {
     private $holder;
@@ -26,8 +29,7 @@ abstract class Account
         $value += ($this->percentageTariff() * $value);
 
         if ($value > $this->balance) {
-            echo "Saldo indisponível";
-            return;
+            throw new InsufficientFundsException($value, $this->balance);
         }
 
         $this->balance -= $value;
@@ -36,8 +38,7 @@ abstract class Account
     public function deposit(float $value): void
     {
         if ($value < 0) {
-            echo "Valor precisa ser positivo";
-            return;
+            throw new InvalidArgumentException('Valor precisa ser positivo');
         }
 
         $this->balance += $value;
@@ -70,5 +71,5 @@ abstract class Account
         return self::$accountNumber;
     }
 
-    abstract function percentageTariff(): float;
+    abstract public function percentageTariff(): float;
 }
