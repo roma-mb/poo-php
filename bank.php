@@ -25,6 +25,7 @@ try {
 
     $currentAccount->deposit(6300);
     $currentAccount->withdraw(300);
+    // $currentAccount->transfer(6300, $savingsAccount);
 
     // __toString();
     echo 'HOLDER ADDRESS: ' .  $address . PHP_EOL;
