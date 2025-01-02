@@ -1,18 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Exceptions;
 
 use DomainException;
 
 class InvalidNameException extends DomainException
 {
-    public function __construct(string $name)
+    public function __construct(string $message)
     {
-        $messgage = "Nome: {$name} inválido, o mesmo precisa conter pelo menos 5 caracteres";
-        parent::__construct($messgage);
-    }
-
-    public function test()
-    {
+        parent::__construct($message);
     }
 }

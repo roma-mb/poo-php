@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model\Account;
 
 use App\Exceptions\InsufficientFundsException;
+use App\langs\Lang;
 
 class Current extends Account
 {
@@ -13,8 +16,15 @@ class Current extends Account
 
     public function transfer(float $value, Account $account): void
     {
-        if ($value > $this->getBalance()) {
-            throw new InsufficientFundsException($value, $this->getBalance());
+        $balance = $this->getBalance();
+
+        if ($value > $balance) {
+            $message = Lang::get(message: 'messages.insufficient_balance', replace: [
+                ':value' => (string) $value,
+                ':balance' => (string) $balance
+            ]);
+
+            throw new InsufficientFundsException($message);
         }
 
         $this->withdraw($value);

@@ -1,31 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model;
 
 use InvalidArgumentException;
 
 final class CPF
 {
-    private $number;
+    use Accessors;
 
-    // value object https://martinfowler.com/bliki/ValueObject.html
-    public function __construct(string $number)
+    public function __construct(private string $number)
     {
         $this->validate($number);
-        $this->number = $number;
-    }
-
-    public function getNumber(): string
-    {
-        return $this->number;
-    }
-
-    public function setNumber(string $number): CPF
-    {
-        $this->validate($number);
-        $this->number = $number;
-
-        return $this;
     }
 
     private function validate(string $number): void
@@ -37,7 +24,7 @@ final class CPF
         ]);
 
         if ($validate === false) {
-            throw new InvalidArgumentException('Cpf inválido');
+            throw new InvalidArgumentException('Invalid Cpf.');
         }
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Model\AuthenticateInterface;
@@ -7,13 +9,13 @@ use DomainException;
 
 class Authenticate
 {
-    public function login(AuthenticateInterface $authenticateInterface, string $password)
+    public function login(AuthenticateInterface $authenticateInterface, string $password): void
     {
        if ($authenticateInterface->validate($password)) {
-           echo '[ Usuário autenticado. ]' . PHP_EOL;
+           echo "[ Authenticated User: {$authenticateInterface->getName()}]" . PHP_EOL;
            return;
        }
     
-       throw new DomainException('Senha incorreta...');
+       throw new DomainException('Incorrect password...');
     }
 }

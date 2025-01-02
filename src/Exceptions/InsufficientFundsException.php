@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Exceptions;
 
 class InsufficientFundsException extends \DomainException
 {
-    public function __construct(float $value, float $balance)
+    public function __construct(string $message)
     {
-        $message = "[ Saldo insucifiente ] - Valor solicitado R$: {$value}, Saldo atual R$: {$balance}";
         parent::__construct($message);
     }
 }

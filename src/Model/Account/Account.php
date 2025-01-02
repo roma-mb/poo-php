@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model\Account;
 
 use App\Exceptions\InsufficientFundsException;
+use App\langs\Lang;
 use InvalidArgumentException;
 
 abstract class Account
 {
-    private $holder;
-    private $balance;
-    private static $accountNumber = 0;
+    private static int $accountNumber = 0;
+    private float $balance;
 
-    public function __construct(Holder $holder)
+    public function __construct(
+        private Holder $holder,
+    )
     {
-        $this->holder  = $holder;
         $this->balance = 0;
-
         self::$accountNumber++;
     }
 
@@ -29,19 +31,26 @@ abstract class Account
         $value += ($this->percentageTariff() * $value);
 
         if ($value > $this->balance) {
-            throw new InsufficientFundsException($value, $this->balance);
+            $message = Lang::get(message: 'messages.insufficient_balance', replace: [
+                ':value' => (string) $value,
+                ':balance' => (string) $this->balance
+            ]);
+            throw new InsufficientFundsException($message);
         }
 
         $this->balance -= $value;
     }
 
-    public function deposit(float $value): void
+    public function deposit(float $value): float
     {
         if ($value < 0) {
-            throw new InvalidArgumentException('Valor precisa ser positivo');
+            $message = Lang::get('messages.should_gt_zero');
+            throw new InvalidArgumentException($message);
         }
 
         $this->balance += $value;
+
+        return $this->balance;
     }
 
     public function getHolderName(): string
